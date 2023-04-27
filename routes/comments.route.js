@@ -15,6 +15,12 @@ const commentSchema = Joi.object({
 // 댓글 생성 api
 router.post("/posts/:postId/comments", authMiddleware, async (req, res) => {
   try {
+    const commentCheck = commentSchema.validate(req.body);
+    if (commentCheck.error) {
+      return res.status(412).json({
+        errorMessage: "입력한 데이터 형식이 올바르지 않습니다.",
+      });
+    }
     const { userId, nickname } = res.locals.user;
     const { comment } = req.body;
     const { postId } = req.params;
