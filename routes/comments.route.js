@@ -84,7 +84,7 @@ router.put(
           .json({ errorMessage: "댓글이 존재하지 않습니다." });
       }
 
-      // 댓글의 권한을 확인하고, 게시글을 수정합니다.
+      // 댓글의 권한을 확인하고, 댓글을 수정합니다.
       const updateCheck = await Comments.update(
         { comment },
         { where: { commentId, PostId: postId, UserId: userId } }
@@ -106,37 +106,37 @@ router.delete(
   "/posts/:postId/comments/:commentId",
   authMiddleware,
   async (req, res) => {
-    // try {
-    const { postId, commentId } = req.params;
-    const { userId } = res.locals.user;
+    try {
+      const { postId, commentId } = req.params;
+      const { userId } = res.locals.user;
 
-    // 게시글 존재여부 확인
-    const existComments = await Comments.findOne({ where: { commentId } });
+      // 게시글 존재여부 확인
+      const existComments = await Comments.findOne({ where: { commentId } });
 
-    if (!existComments) {
-      return res
-        .status(404)
-        .json({ errorMessage: "댓글이 존재하지 않습니다." });
-    }
+      if (!existComments) {
+        return res
+          .status(404)
+          .json({ errorMessage: "댓글이 존재하지 않습니다." });
+      }
 
-    const commentDelete = await Comments.destroy({
-      where: {
-        commentId,
-        UserId: userId,
-        PostId: postId,
-      },
-    });
-    if (commentDelete < 1) {
+      const commentDelete = await Comments.destroy({
+        where: {
+          commentId,
+          UserId: userId,
+          PostId: postId,
+        },
+      });
+      if (commentDelete < 1) {
+        return res
+          .status(400)
+          .json({ errorMessage: "댓글이 정상적으로 삭제되지 않았습니다." });
+      }
+      return res.status(200).json({ message: "댓글이 삭제되었습니다." });
+    } catch (err) {
       return res
         .status(400)
-        .json({ errorMessage: "댓글이 정상적으로 삭제되지 않았습니다." });
+        .json({ errorMessage: "댓글 삭제에 실패하였습니다." });
     }
-    return res.status(200).json({ message: "댓글이 삭제되었습니다." });
-    // } catch (err) {
-    //   return res
-    //     .status(400)
-    //     .json({ errorMessage: "댓글 삭제에 실패하였습니다." });
-    // }
   }
 );
 

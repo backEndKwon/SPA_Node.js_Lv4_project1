@@ -1,5 +1,6 @@
 //연결고리
 "use strict";
+const Sequelize = require("sequelize");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
@@ -8,15 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Users, {
         targetKey: "userId",
         foreignKey: "UserId",
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
       });
-      this.hasMany(models.Likes,{
-        sourceKey : 'postId',
-        foreignKey : 'PostId',
+      this.hasMany(models.Likes, {
+        sourceKey: "postId",
+        foreignKey: "PostId",
       });
-      this.hasMany(models.Comments,{
-        sourceKey : 'postId',
-        foreignKey : 'PostId',
+      this.hasMany(models.Comments, {
+        sourceKey: "postId",
+        foreignKey: "PostId",
       });
     }
   }
@@ -27,33 +28,37 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false, // NOT NULL
         autoIncrement: true, // AUTO_INCREMENT
         primaryKey: true, // Primary Key (기본키)
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       UserId: {
         allowNull: false, // NOT NULL
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       title: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       nickname: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       content: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
+      },
+      likes: {
+        type: Sequelize.INTEGER,
+
       },
       createdAt: {
         allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
       updatedAt: {
         allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
     },
     {

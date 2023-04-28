@@ -1,5 +1,7 @@
 //연결고리
 "use strict";
+const Sequelize = require('sequelize');
+
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Comments extends Model {
@@ -7,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Users, {
         targetKey: "userId",
         foreignKey: "UserId",
-        onDelete: "CASCADE", 
+        onDelete: "CASCADE",
       });
       this.belongsTo(models.Posts, {
         targetKey: "postId",
@@ -23,33 +25,33 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       PostId: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       UserId: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       comment: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       nickname: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
     },
     {

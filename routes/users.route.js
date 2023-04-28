@@ -1,20 +1,18 @@
-require("dotenv").config();
-
 const express = require("express");
 const router = express.Router();
-const  {Users}  = require("../models");
+const { Users } = require("../models");
 const jwt = require("jsonwebtoken");
 
 //회원가입 api
 router.post("/signup", async (req, res) => {
-  try {
-    const { nickname, password, confirmPassword } = req.body;
+  // try {
+    const { nickname, password, confirm} = req.body;
     const isExistUser = await Users.findOne({
       where: {
         nickname: nickname,
-      }
+      },
     });
-    console.log(password, confirmPassword)
+    console.log(password, confirm);
     if (isExistUser) {
       return res.status(409).json({
         errorMessage: "중복된 닉네임입니다.",
@@ -28,7 +26,7 @@ router.post("/signup", async (req, res) => {
       return;
     }
     //패스워드 일치 검사
-    if (password !== confirmPassword) {
+    if (password !== confirm) {
       res.status(412).json({
         errorMessage: "패스워드가 일치하지 않습니다.",
       });
@@ -51,11 +49,11 @@ router.post("/signup", async (req, res) => {
     await Users.create({ nickname, password });
 
     return res.status(201).json({ message: "회원가입에 성공하였습니다." });
-  } catch (err) {
-    res.status(400).json({
-      errorMessage: "요청한 데이터 형식이 올바르지 않습니다.",
-    });
-  }
+  // } catch (err) {
+  //   res.status(400).json({
+  //     errorMessage: "요청한 데이터 형식이 올바르지 않습니다.",
+  //   });
+  // }
 });
 
 //로그인 api

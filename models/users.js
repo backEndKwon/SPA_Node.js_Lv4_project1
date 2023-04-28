@@ -1,25 +1,25 @@
 //연결고리
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const Sequelize = require("sequelize");
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
-    
     static associate(models) {
       //post와 1:N관계
       this.hasMany(models.Posts, {
-        targetKey: 'userId',
-        foreignKey: 'UserId',
+        targetKey: "userId",
+        foreignKey: "UserId",
       });
       this.hasMany(models.Likes, {
-        targetKey: 'userId',
-        foreignKey: 'UserId',
+        targetKey: "userId",
+        foreignKey: "UserId",
       });
       this.hasMany(models.Comments, {
-        targetKey: 'userId',
-        foreignKey: 'UserId',
+        targetKey: "userId",
+        foreignKey: "UserId",
       });
-    };
-  };
+    }
+  }
 
   Users.init(
     {
@@ -27,31 +27,31 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false, // NOT NULL
         autoIncrement: true, // AUTO_INCREMENT
         primaryKey: true, // Primary Key (기본키)
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
       },
       nickname: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         unique: true,
       },
       password: {
         allowNull: false, // NOT NULL
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
       updatedAt: {
         allowNull: false, // NOT NULL
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
     },
     {
       sequelize,
-      modelName: 'Users',
+      modelName: "Users",
     }
   );
   return Users;
