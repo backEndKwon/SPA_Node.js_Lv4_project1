@@ -50,7 +50,7 @@ router.get("/posts/like", authMiddleware, async (req, res) => {
         "userId",
         "nickname",
         "title",
-        "createdAt",
+        "createdAt",  
         "updatedAt",
         [sequelize.fn("COUNT", sequelize.col("Likes.PostId")), "likes"],
         //sequel에서 제공한 fn메서드로 count한다. Like의PostId가 존재하면 counting한다. 그변수명은 likes로 한다.
@@ -61,9 +61,7 @@ router.get("/posts/like", authMiddleware, async (req, res) => {
           attributes: [],
           required: true, //Left outer join대신 Inner join으로 설정
           //false로 할경우 모든 게시물 조회
-          where: {
-            [Op.and]: [{ UserId: userId }],
-          },
+          where: { UserId: userId },
         },
       ],
       group: ["Posts.postId"],

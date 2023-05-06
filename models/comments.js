@@ -52,6 +52,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
+      },likes: {
+        type: Sequelize.INTEGER,
       },
     },
     {

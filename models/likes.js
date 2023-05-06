@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      CommentId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       PostId: {
         type: Sequelize.INTEGER,
         allowNull: false,

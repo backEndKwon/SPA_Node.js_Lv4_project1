@@ -7,23 +7,32 @@ const router = express.Router();
 const { Op } = require("sequelize");
 
 //댓글 정규표현식 + 검수작업 (from 시험문제)
-const RE_COMMENT = /^[\s\S]{1,100}$/; // 댓글 정규 표현식
-const commentSchema = Joi.object({
-  comment: Joi.string().pattern(RE_COMMENT).required(),
-});
+// const commentSchema = Joi.object({
+//   comment: Joi.string().pattern(RE_COMMENT).required(),
+// });
 
 // 댓글 생성 api
 router.post("/posts/:postId/comments", authMiddleware, async (req, res) => {
-  try {
-    const commentCheck = commentSchema.validate(req.body);
-    if (commentCheck.error) {
-      return res.status(412).json({
-        errorMessage: "입력한 데이터 형식이 올바르지 않습니다.",
-      });
-    }
+  // try {
+  
     const { userId, nickname } = res.locals.user;
     const { comment } = req.body;
     const { postId } = req.params;
+
+    // const commentCheck = commentSchema.validate(comment);
+    // if (commentCheck.error) {
+    //   return res.status(412).json({
+    //     errorMessage: "입력한 데이터 형식이 올바르지 않습니다.",
+    //   });
+//     // }
+//     const RE_COMMENT = /^[\s\S]{1,100}$/; // 댓글 정규 표현식
+// const checkComment = RE_COMMENT.text(comment)
+
+    // if (comment !==/^[\s\S]{1,100}$/ ) {
+    //   return res.status(412).json({
+    //     errorMessage: "댓글 형식이 잘못되었습니다.",
+    //   });
+    // }
     if (!comment) {
       return res.status(412).json({
         errorMessage: "댓글 내용을 입력하세요.",
@@ -41,9 +50,9 @@ router.post("/posts/:postId/comments", authMiddleware, async (req, res) => {
       nickname: nickname,
     });
     return res.status(201).json({ message: " 댓글 작성에 성공하였습니다." });
-  } catch (err) {
-    res.status(400).json({ errorMessage: "댓글 작성에 실패하였습니다." });
-  }
+  // } catch (err) {
+  //   res.status(400).json({ errorMessage: "댓글 작성에 실패하였습니다." });
+  // }
 });
 
 // 댓글 목록 조회api
